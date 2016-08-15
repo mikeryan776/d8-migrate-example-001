@@ -1,0 +1,73 @@
+id: node_press_release_translation
+migration_tags:
+  - 'Drupal 6'
+migration_group: carlyle
+label: 'Press Release node translations'
+source:
+  plugin: press_release_node
+  node_type: pr
+  translations: true
+process:
+  type:
+    plugin: default_value
+    default_value: press_release
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: und
+  nid:
+    plugin: migration
+    migration: node_press_release
+    source: tnid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  'body/value': body
+  'body/summary': teaser
+  'body/format':
+    plugin: static_map
+    source: format
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+  field_pr_code: field_code
+  field_release_date: field_date
+  field_investment:
+    plugin: migration
+    migration: node_investment
+    source: field_portfolio
+  field_funds:
+    plugin: entity_lookup
+    source: field_fund
+    value_key: title
+    ignore_case: true
+  field_industry:
+    plugin: entity_lookup
+    source: field_industry
+    ignore_case: true
+  field_business_segment:
+    plugin: entity_lookup
+    source: field_fund_segment
+    ignore_case: true
+  field_pdf:
+    plugin: carlyle_cck_file
+    source: field_pdf
+destination:
+  plugin: 'entity:node'
+  translations: true
+migration_dependencies:
+  required:
+    - file
+    - user
+    - node_press_release
+  optional: {}

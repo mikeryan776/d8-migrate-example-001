@@ -1,0 +1,128 @@
+id: node_bio_translation
+migration_tags:
+  - 'Drupal 6'
+migration_group: carlyle
+label: 'Bio node translations'
+source:
+  plugin: bio_node
+  node_type: bio
+  translations: true
+process:
+  type:
+    plugin: default_value
+    default_value: bio
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: und
+  nid:
+    plugin: migration
+    migration: node_bio
+    source: tnid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  'field_biography/value': body
+  'field_biography/summary': teaser
+  'field_biography/format':
+    plugin: static_map
+    source: format
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+  field_alphabetic_range:
+    plugin: entity_lookup
+    source: Alphabet
+    ignore_case: true
+  field_asset_class:
+    plugin: entity_lookup
+    source: field_asset_class
+    ignore_case: true
+  field_bio_category:
+    plugin: entity_lookup
+    source: Fund Category
+    ignore_case: true
+  # This set of booleans is mapped from a term reference - each one is set to
+  # 'true' if a specific term value is found.
+  field_board_of_directors:
+    plugin: static_map
+    source: Bio Team Member
+    default_value: 0
+    map:
+      Board of Directors: 1
+  field_founder:
+    plugin: static_map
+    source: Bio Team Member
+    default_value: 0
+    map:
+      Founders: 1
+  field_management_committee:
+    plugin: static_map
+    source: Bio Team Member
+    default_value: 0
+    map:
+      Management Committee: 1
+  field_operating_committee:
+    plugin: static_map
+    source: Bio Team Member
+    default_value: 0
+    map:
+      Operating Committee: 1
+  field_operating_executives:
+    plugin: static_map
+    source: Bio Team Member
+    default_value: 0
+    map:
+      Operating Executives: 1
+  field_business_segment:
+    plugin: entity_lookup
+    source: field_fund_segment
+    ignore_case: true
+  field_director_since: field_director_since
+  field_disclosure_person_for:
+    plugin: entity_lookup
+    source: 'Disclosure Person for'
+    ignore_case: true
+  field_expiration_of_term: field_expiration_of_term
+  field_featured_on_fund_segment: field_hightlight
+  field_geography:
+    plugin: entity_lookup
+    source: Geography
+    ignore_case: true
+  field_content_image:
+    plugin: carlyle_cck_file
+    source: field_image
+  field_industry:
+    plugin: entity_lookup
+    source: field_industry
+    ignore_case: true
+  field_investor_relations: field_investor_relations
+  field_location:
+    plugin: entity_lookup
+    source: field_location
+    ignore_case: true
+  field_name_for_sorting: field_sort_name
+  field_position:
+    plugin: entity_lookup
+    source: Position
+    ignore_case: true
+  field_is_team_member: field_team_member
+destination:
+  plugin: 'entity:node'
+  translations: true
+migration_dependencies:
+  required:
+    - file
+    - user
+    - node_bio
+  optional: {}

@@ -1,0 +1,36 @@
+id: user
+label: User accounts
+migration_tags:
+  - Drupal 6
+migration_group: carlyle
+source:
+  plugin: d6_user
+process:
+  uid: uid
+  name: name
+  pass: pass
+  mail: mail
+  created: created
+  access: access
+  login: login
+  status: status
+  timezone:
+    plugin: user_update_7002
+    source: timezone
+  preferred_langcode: language
+  init: init
+  roles:
+    plugin: static_map
+    source: roles
+    bypass: true
+    map:
+      4: manager              # content author
+      3: manager              # developer
+      6: manager              # html content author
+      16: media_room_manager  # media room manager
+      11: translator          # translator
+destination:
+  plugin: entity:user
+migration_dependencies:
+  required: {}
+  optional: {}

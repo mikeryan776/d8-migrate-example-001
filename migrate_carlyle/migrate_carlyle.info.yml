@@ -1,0 +1,8 @@
+name: migrate_carlyle
+type: module
+description: Migrate content to D8
+core: 8.x
+package: Custom
+dependencies:
+  - migrate_plus
+  - migrate_drupal

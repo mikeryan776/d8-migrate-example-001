@@ -1,0 +1,106 @@
+id: node_investment_translation
+migration_tags:
+  - 'Drupal 6'
+migration_group: carlyle
+label: 'Investment node translations'
+source:
+  plugin: investment_node
+  node_type: portfolio
+  translations: true
+process:
+  type:
+    plugin: default_value
+    default_value: investment
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: und
+  nid:
+    plugin: migration
+    migration: node_investment
+    source: tnid
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  'field_description/value': body
+  'field_description/summary': teaser
+  'field_description/format':
+    plugin: static_map
+    source: format
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+  field_acquired:
+    plugin: callback
+    callable:
+      - '\Drupal\migrate_carlyle\Plugin\migrate\source\CarlyleNode'
+      - fixMonthDates
+    source: field_acquired
+  field_region_country: field_region_country
+  'field_sidebar/value': 'field_sidebar/0/value'
+  'field_sidebar/format':
+    plugin: static_map
+    source: 'field_sidebar/0/format'
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+    default_value: restricted_html
+  field_website:
+    plugin: iterator
+    source: field_link
+    process:
+      uri: url
+      title: title
+      options: attributes
+  field_alphabetic_range:
+    plugin: entity_lookup
+    source: Alphabet
+    ignore_case: true
+  field_funds:
+    plugin: entity_lookup
+    source: field_fund
+    value_key: title
+    ignore_case: true
+  field_geography:
+    plugin: entity_lookup
+    source: Geography
+    ignore_case: true
+  field_industry:
+    plugin: entity_lookup
+    source: field_industry
+    ignore_case: true
+  field_status:
+    plugin: entity_lookup
+    source: Status
+    ignore_case: true
+  field_content_image:
+    plugin: carlyle_cck_file
+    source: field_images
+  field_header_image:
+    plugin: carlyle_cck_file
+    source: field_header_image
+  field_logo:
+    plugin: carlyle_cck_file
+    source: field_logo
+destination:
+  plugin: 'entity:node'
+  translations: true
+migration_dependencies:
+  required:
+    - file
+    - user
+    - node_investment
+  optional: {}

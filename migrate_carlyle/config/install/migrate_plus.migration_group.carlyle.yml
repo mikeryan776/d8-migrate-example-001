@@ -1,0 +1,7 @@
+id: carlyle
+label: D6 imports
+description: Migrations importing from the legacy D6 Carlyle site
+source_type: Drupal 6
+shared_configuration:
+  source:
+    key: carlyled6

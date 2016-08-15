@@ -1,0 +1,74 @@
+id: node_market_commentary
+migration_tags:
+  - 'Drupal 6'
+migration_group: carlyle
+label: 'Market Commentary nodes'
+source:
+  plugin: market_commentary_node
+  node_type: market_commentary
+process:
+  type:
+    plugin: default_value
+    default_value: market_commentary
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: und
+  title: title
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  'field_description/value': body
+  'field_description/summary': teaser
+  'field_description/format':
+    plugin: static_map
+    source: format
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+  field_byline: field_by_line
+  field_commentary_type:
+    plugin: entity_lookup
+    source: Type
+    ignore_case: true
+  'field_episode_summary/value': 'field_market_commentary_featured/0/value'
+  'field_episode_summary/format':
+    plugin: static_map
+    source: 'field_market_commentary_featured/0/format'
+    map:
+      1: restricted_html  # Filtered HTML
+      2: full_html        # Full HTML
+      3: restricted_html  # PHP code
+      6: plain_text       # Plaintext
+      11: full_html       # Unfiltered HTML
+    default_value: restricted_html
+  field_content_image:
+    plugin: carlyle_cck_file
+    source: field_market_commentary_image
+  field_link:
+    plugin: iterator
+    source: field_market_commentary_link
+    process:
+      uri: url
+      title: title
+      options: attributes
+  field_pdf:
+    plugin: carlyle_cck_file
+    source: field_market_commentary_file
+  field_release_date: field_date
+destination:
+  plugin: 'entity:node'
+migration_dependencies:
+  required:
+    - file
+    - user
+  optional: {}

@@ -1,0 +1,33 @@
+id: file
+label: Files from www.carlyle.com
+migration_tags:
+  - Drupal 6
+migration_group: carlyle
+source:
+  plugin: carlyle_file
+process:
+  filename: filename
+  uri:
+    plugin: file_uri
+    source:
+      - filepath
+      - file_directory_path
+      - temp_directory_path
+      - is_public
+  filemime: filemime
+  filesize: filesize
+  status: status
+  changed: timestamp
+  uid:
+    plugin: migration
+    migration: user
+    source: uid
+destination:
+  plugin: entity:file
+  urlencode: true
+  # Scrape from the web site.
+  source_base_path: 'http://www.carlyle.com/'
+migration_dependencies:
+  required:
+    - user
+  optional: {}
